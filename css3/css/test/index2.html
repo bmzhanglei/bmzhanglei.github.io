@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+    <style>
+
+        .answerTextArea{
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            border:none;
+            outline: none;
+            font-size: 0.6rem;       
+            background: none;
+            box-sizing: border-box;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #000;
+            resize:none
+        }
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <textarea rows="1" ref='txtarea' class="answerTextArea" @focus='onFocus' @blur='onBlur'></textarea>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script> 
+     <script>
+         new Vue({
+             el:'#app',
+             data:{
+                heightAll:''
+             },
+             mounted(){
+                this.makeExpandingArea(this.$refs.txtarea);
+             },
+             methods:{
+                onBlur(){
+                    this.$refs.txtarea.style.height='28px'
+                },
+                onFocus(){
+                    this.$refs.txtarea.style.height=this.heightAll;
+                },
+                makeExpandingArea(el) {
+                    let self = this;
+                    var timer = null;
+                    //由于ie8有溢出堆栈问题，故调整了这里
+                    var setStyle = function(el, auto) {
+                        if (auto) el.style.height = 'auto';                      
+                        el.style.height = el.scrollHeight + 'px';
+                        if(el.style.height!='auto'){
+                            self.heightAll=el.style.height;
+                        }
+                       
+                    }
+                    var delayedResize = function(el) {
+                        if (timer) {
+                            clearTimeout(timer);
+                            timer = null;
+                        }
+                        timer = setTimeout(function() {
+                            setStyle(el)
+                        }, 200);
+                    }
+                    if (el.addEventListener) {
+                        el.addEventListener('input', function() {
+                            setStyle(el, 1);
+                        }, false);
+                        setStyle(el)
+                    } else if (el.attachEvent) {
+                        el.attachEvent('onpropertychange', function() {
+                            setStyle(el)
+                        })
+                        setStyle(el)
+                    }
+                    if (window.VBArray && window.addEventListener) { //IE9
+                        el.attachEvent("onkeydown", function() {
+                            var key = window.event.keyCode;
+                            if (key == 8 || key == 46) delayedResize(el);
+
+                        });
+                        el.attachEvent("oncut", function() {
+                            delayedResize(el);
+                        }); //处理粘贴
+                    }
+                    }
+             }
+         })
+     </script>
+</body>
+</html>

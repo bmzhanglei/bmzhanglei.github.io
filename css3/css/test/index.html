@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .answerTextArea{
+            width: 100%;
+            height: auto;
+            border:none;
+            outline: none;
+            font-size: 0.6rem;
+       
+            background: none;
+            box-sizing: border-box;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <textarea rows="1" class="answerTextArea" ></textarea>
+
+<script>
+
+    //监听文本域输入，高度自动变化
+function makeExpandingArea(el) {
+   var timer = null;
+   //由于ie8有溢出堆栈问题，故调整了这里
+   var setStyle = function(el, auto) {
+       if (auto) el.style.height = 'auto';
+       console.log(el.scrollHeight)
+       el.style.height = el.scrollHeight + 'px';
+   }
+   var delayedResize = function(el) {
+       if (timer) {
+           clearTimeout(timer);
+           timer = null;
+       }
+       timer = setTimeout(function() {
+           setStyle(el)
+       }, 200);
+   }
+   if (el.addEventListener) {
+       el.addEventListener('input', function() {
+           setStyle(el, 1);
+       }, false);
+       setStyle(el)
+   } else if (el.attachEvent) {
+       el.attachEvent('onpropertychange', function() {
+           setStyle(el)
+       })
+       setStyle(el)
+   }
+   if (window.VBArray && window.addEventListener) { //IE9
+       el.attachEvent("onkeydown", function() {
+           var key = window.event.keyCode;
+           if (key == 8 || key == 46) delayedResize(el);
+
+       });
+       el.attachEvent("oncut", function() {
+           delayedResize(el);
+       }); //处理粘贴
+   }
+}
+
+//监听文本换行
+function exeTextLine(obj){
+    if(obj == ""){
+        var textareaList = document.getElementsByClassName('answerTextArea');
+        
+        for(var i=0;i<textareaList.length;i++){
+            makeExpandingArea(textareaList[i]);
+        }
+    }else{
+        makeExpandingArea(obj);
+    }
+    
+}
+
+exeTextLine("");
+</script>
+
+
+</body>
+</html>

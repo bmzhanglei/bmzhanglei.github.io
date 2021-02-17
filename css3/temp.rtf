@@ -1,0 +1,98 @@
+input:focus{
+   outline:none
+}
+
+width:-webkit-fill-available    //自动撑满
+
+width:fit-content   //适应文本内容的宽度
+
+
+background-clip:content-box //不包括padding区域
+background-clip:padding-box //包括padding区域
+background-clip:border-box //包到边框区域
+
+background-attachment:fixed   //背景是固定 的      scroll 背景是可以滚动的  
+background-size:contain    //
+
+background-image:url(a.png),url(b.png) ;   //定义多个背景
+background-position:top left, center;       //
+
+background:radial-gradient(at 0% 50%,red, green, blue );   // 
+background:linear-gradient(90deg,red 50% ,green 50%);   //  控制颜色标示位
+background:linear-gradient(90deg,red , 30% , green);     //可用于进度条
+background:repeating-linear-gradient(90deg,blue,10px,yellow 10px, 10px ,red 25px)    //渐变重复
+
+table{
+  border-collapse:collapse;  
+  empty-cells:hide    //对空单元格隐藏  
+}
+//普通标签定义成表格
+.table{
+  display:table;
+  nav{
+     display:table-caption;
+     caption-side:top 
+  }
+  section{
+     &:nth-of-type(1){
+         display:table-header-group;
+      }
+      &:nth-of-type(2){
+         display:table-row-group;
+      }
+      &:nth-of-type(3){
+         display:table-footer-group;
+      }
+      ul{
+         display:table-row;
+          li{
+              display:table-cell;
+              border:solid 1px #ddd
+           }
+      }    
+   }
+}
+
+list-style-image:linear-gradient(45deg,red,green)  //
+
+a::before{
+  content:attr(href) ;   //获取属性 
+}
+
+//伪标签清除浮动
+main:after{
+  content:’’;
+  clear:both;
+  display:block
+}
+
+overflow触发BFC 清除浮动影响
+main{
+  overflow:hidden
+}
+
+//环绕距离控制
+clip-path:circle(30% at 100% 0) ;
+clip-path:polygon(50% 0,100% 100%,0 100%);   //三角形
+clip-path:ellipse(50% 100%);   //椭圆
+
+shape-outside:ellipse(50% 100%)；  //围绕椭圆环绕
+shape-outside: border-box   //  padding-box / content-box / margin-box / border-box 
+
+粘性定位  //如果是同级会叠加，非同级会顶走
+position:sticky;
+top:0
+
+
+transform:translate(100%,100px)
+
+translateZ(-300px)   //要写具体尺寸
+translate3d(0%,0%,0px)
+
+:target{}    //
+
+text-transform:uppercase
+
+filter:blur(15px)    //滤镜
+
+
